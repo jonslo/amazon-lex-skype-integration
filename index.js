@@ -23,6 +23,7 @@ var builder = require('botbuilder');
 var AWS = require('aws-sdk');
 AWS.config.region = 'us-east-1';
 
+var inMemoryStorage = new builder.MemoryBotStorage();
 var connector = new builder.ChatConnector({
 		appId:process.env.MICROSOFT_APP_ID,
 		appPassword: process.env.MICROSOFT_APP_PASSWORD
@@ -52,7 +53,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
 				session.send(data.message); //now send it back to the Microsoft Bot Framework
 			}
 		});
-});
+}).set('storage', inMemoryStorage);
 
 //this is needed to make connector.listen() method work with AWS Lambda
 function lambda(connector) {
